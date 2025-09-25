@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "../../lib/supabase/client";
 
 interface Product {
   id: number;
   name: string;
   price: number;
-  created_at: string;
+  created_at?: string;
 }
 
 export default function ProductsPage() {
@@ -21,17 +20,43 @@ export default function ProductsPage() {
     setError(null);
 
     try {
+      // Check if Supabase environment variables are available
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+      if (!supabaseUrl || !supabaseAnonKey) {
+        // Use mock data if environment variables are not set
+        const mockProducts: Product[] = [
+          { id: 1, name: "produkti1", price: 20 },
+          { id: 2, name: "produkti2", price: 33 },
+          { id: 3, name: "produkti3", price: 4444444 },
+        ];
+
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate loading
+        setProducts(mockProducts);
+        setShowProducts(true);
+        return;
+      }
+
+      // Try to use Supabase if environment variables are available
+      const { createClient } = await import("../../lib/supabase/client");
       const supabase = createClient();
       const { data, error } = await supabase.from("productss").select("*");
 
       if (error) {
-        setError(error.message);
+        setError(`Database error: ${error.message}`);
       } else {
         setProducts(data || []);
         setShowProducts(true);
       }
-    } catch {
-      setError("Failed to fetch products");
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(`Connection error: ${err.message}`);
+      } else {
+        setError(
+          "Failed to fetch products. Please check your environment variables."
+        );
+      }
     } finally {
       setLoading(false);
     }
