@@ -3,8 +3,15 @@
 import { useState } from "react";
 import { createClient } from "../../lib/supabase/client";
 
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  created_at: string;
+}
+
 export default function ProductsPage() {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showProducts, setShowProducts] = useState(false);
@@ -23,7 +30,7 @@ export default function ProductsPage() {
         setProducts(data || []);
         setShowProducts(true);
       }
-    } catch (err) {
+    } catch {
       setError("Failed to fetch products");
     } finally {
       setLoading(false);
@@ -46,7 +53,7 @@ export default function ProductsPage() {
 
       {showProducts && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {products.map((product: any) => (
+          {products.map((product: Product) => (
             <div key={product.id} className="border p-4 rounded shadow">
               <div className="mb-2 w-full h-40 bg-gray-200 rounded flex items-center justify-center">
                 <span className="text-gray-500">No Image</span>

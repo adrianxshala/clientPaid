@@ -29,7 +29,7 @@ export default function DashboardClient() {
   }, []);
 
   // Save preferences when they change
-  const updatePreference = (key: string, value: any) => {
+  const updatePreference = (key: string, value: string | boolean) => {
     const newPrefs = { ...userPreferences, [key]: value };
     setUserPreferences(newPrefs);
     AppData.setUserPreference("user-settings", newPrefs);
@@ -131,5 +131,3 @@ export default function DashboardClient() {
     </div>
   );
 }
-
-
