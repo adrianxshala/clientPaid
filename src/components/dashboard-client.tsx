@@ -14,7 +14,11 @@ export default function DashboardClient() {
   // Load data from sessionStorage on component mount
   useEffect(() => {
     // Load user preferences
-    const savedPrefs = AppData.getUserPreference("user-settings");
+    const savedPrefs = AppData.getUserPreference<{
+      theme: string;
+      language: string;
+      notifications: boolean;
+    }>("user-settings");
     if (savedPrefs) {
       setUserPreferences(savedPrefs);
     }
