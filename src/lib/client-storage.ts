@@ -3,7 +3,7 @@
 
 export class ClientStorage {
   // Set data in sessionStorage
-  static setSessionItem(key: string, value: any): void {
+  static setSessionItem(key: string, value: unknown): void {
     if (typeof window !== "undefined") {
       try {
         const serializedValue = JSON.stringify(value);
@@ -73,7 +73,7 @@ export class ClientStorage {
 // Example usage for non-authentication data
 export const AppData = {
   // User preferences (not authentication)
-  setUserPreference: (key: string, value: any) => {
+  setUserPreference: (key: string, value: unknown) => {
     ClientStorage.setSessionItem(`pref_${key}`, value);
   },
 
@@ -82,7 +82,7 @@ export const AppData = {
   },
 
   // Temporary form data
-  saveFormData: (formId: string, data: any) => {
+  saveFormData: (formId: string, data: unknown) => {
     ClientStorage.setSessionItem(`form_${formId}`, data);
   },
 
@@ -91,7 +91,7 @@ export const AppData = {
   },
 
   // Shopping cart (example)
-  saveCart: (cartData: any) => {
+  saveCart: (cartData: unknown) => {
     ClientStorage.setSessionItem("cart", cartData);
   },
 
@@ -99,5 +99,3 @@ export const AppData = {
     return ClientStorage.getSessionItem("cart");
   },
 };
-
-

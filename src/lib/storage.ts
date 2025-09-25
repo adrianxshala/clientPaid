@@ -3,7 +3,7 @@
 
 export const sessionStorage = {
   // Set data in sessionStorage
-  setItem: (key: string, value: any): void => {
+  setItem: (key: string, value: unknown): void => {
     if (typeof window !== "undefined") {
       try {
         window.sessionStorage.setItem(key, JSON.stringify(value));
@@ -68,5 +68,3 @@ export const userPreferences = {
     return sessionStorage.getItem("user-language");
   },
 };
-
-
