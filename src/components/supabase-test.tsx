@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 interface TestResult {
   status: "loading" | "success" | "error";
   message: string;
-  details?: any;
+  details?: unknown;
 }
 
 export default function SupabaseTest() {
@@ -87,11 +87,17 @@ export default function SupabaseTest() {
           />
           <span className="text-sm font-medium">{result.message}</span>
         </div>
-        {result.details && (
+        {result.details ? (
           <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded">
-            <pre>{JSON.stringify(result.details, null, 2)}</pre>
+            <pre>
+              {JSON.stringify(
+                result.details as Record<string, unknown>,
+                null,
+                2
+              )}
+            </pre>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );
