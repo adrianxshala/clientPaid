@@ -4,9 +4,17 @@ export function createClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (!supabaseUrl || !supabaseAnonKey) {
+  if (!supabaseUrl) {
     throw new Error(
-      "Missing Supabase environment variables. Please check your .env.local file or Vercel environment variables."
+      "Missing NEXT_PUBLIC_SUPABASE_URL environment variable. " +
+        "Please check your .env.local file or Vercel environment variables."
+    );
+  }
+
+  if (!supabaseAnonKey) {
+    throw new Error(
+      "Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable. " +
+        "Please check your .env.local file or Vercel environment variables."
     );
   }
 

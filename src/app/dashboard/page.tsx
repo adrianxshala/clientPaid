@@ -2,6 +2,9 @@ import { requireAuth } from "@/lib/auth";
 import SignOutButton from "@/components/auth/signout-button";
 import DashboardClient from "@/components/dashboard-client";
 
+// Force dynamic rendering to prevent build-time authentication issues
+export const dynamic = "force-dynamic";
+
 export default async function Dashboard() {
   const user = await requireAuth();
 
