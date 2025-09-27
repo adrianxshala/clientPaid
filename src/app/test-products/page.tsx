@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 interface Product {
@@ -14,7 +14,7 @@ export default function TestProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [debugInfo, setDebugInfo] = useState<any>(null);
+  const [debugInfo, setDebugInfo] = useState<unknown>(null);
 
   const testProductsQuery = async () => {
     setLoading(true);
@@ -73,8 +73,8 @@ export default function TestProductsPage() {
         setError(`Authenticated query error: ${error.message}`);
       } else {
         setProducts(data || []);
-        setDebugInfo((prev) => ({
-          ...prev,
+        setDebugInfo((prev: unknown) => ({
+          ...(prev as Record<string, unknown>),
           authenticatedQuery: {
             data,
             error,
@@ -128,14 +128,14 @@ export default function TestProductsPage() {
               </div>
             )}
 
-            {debugInfo && (
+            {debugInfo ? (
               <div className="bg-gray-100 p-4 rounded mb-4">
                 <h3 className="font-semibold mb-2">Debug Information:</h3>
                 <pre className="text-sm overflow-auto">
                   {JSON.stringify(debugInfo, null, 2)}
                 </pre>
               </div>
-            )}
+            ) : null}
 
             <div className="mt-4">
               <h3 className="font-semibold mb-2">
